@@ -1,20 +1,23 @@
 const mongoose = require("mongoose");
 const { model, Schema } = mongoose;
 
-let talentSchema = Schema(
+const PaymentSchema = new Schema(
   {
-    name: {
+    type: {
       type: String,
-      require: [true, "Nama harus diisi"],
-    },
-    role: {
-      type: String,
-      default: "-",
+      required: [true, "Tipe pembayaran harus diisi"],
+      minlength: 3,
+      maxlength: 50,
     },
     image: {
       type: mongoose.Types.ObjectId,
       ref: "Image",
       required: true,
+    },
+    status: {
+      type: Boolean,
+      enum: [true, false],
+      default: true,
     },
     organizer: {
       type: mongoose.Types.ObjectId,
@@ -25,4 +28,4 @@ let talentSchema = Schema(
   { timestamps: true }
 );
 
-module.exports = model("Talent", talentSchema);
+module.exports = model("Payment", PaymentSchema);

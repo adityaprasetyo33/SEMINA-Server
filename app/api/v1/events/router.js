@@ -8,7 +8,14 @@ const {
 } = require("../../../middlewares/auth");
 
 // import product controller
-const { create, index, find, update, destroy } = require("./controller");
+const {
+  create,
+  index,
+  find,
+  update,
+  destroy,
+  changeStatus,
+} = require("./controller");
 
 //connect router endpoint with create method
 router.post(
@@ -42,5 +49,11 @@ router.delete(
   destroy
 );
 
+router.put(
+  "/events/:id/status",
+  authenticateUser,
+  authorizeRoles("organizer"),
+  changeStatus
+);
 // export router
 module.exports = router;

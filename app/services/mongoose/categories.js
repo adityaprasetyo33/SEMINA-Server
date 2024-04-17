@@ -14,7 +14,10 @@ const createCategories = async (req) => {
   const { name } = req.body;
 
   // find method
-  const check = await Categories.findOne({ name });
+  const check = await Categories.findOne({
+    name,
+    organizer: req.user.organizer,
+  });
 
   if (check) throw new BadRequestError("kategori name duplikat");
 
@@ -42,7 +45,11 @@ const updateCategories = async (req) => {
   const { id } = req.params;
   const { name } = req.body;
 
-  const check = await Categories.findOne({ name, _id: { $ne: id } });
+  const check = await Categories.findOne({
+    name,
+    organizer: req.user.organizer,
+    _id: { $ne: id },
+  });
 
   if (check) throw new BadRequestError("kategori nama duplikat");
 
@@ -60,7 +67,10 @@ const updateCategories = async (req) => {
 const deleteCategories = async (req) => {
   const { id } = req.params;
 
-  const result = await Categories.findOne({ _id: id });
+  const result = await Categories.findOne({
+    _id: id,
+    organizer: req.user.organizer,
+  });
 
   if (!result) throw new NotFoundError(`Tidak ada kategori dengan id: ${id}`);
 
